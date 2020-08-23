@@ -4,16 +4,16 @@ namespace BlogPostsAPI.Models
 {
     public class User
     {
-        [Required]
+        //[Required]
         public int Id { get; set; }
 
-        [Required]
+        //[Required]
         public string Name { get; set; }
 
-        [Required]
+        //[Required]
         public string SecondName { get; set; }
 
-        [Required]
+        //[Required]
         public int Age { get; set; }
     }
 }

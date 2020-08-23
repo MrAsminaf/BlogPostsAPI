@@ -1,6 +1,5 @@
 ﻿using BlogPostsAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,12 +15,28 @@ namespace BlogPostsAPI.Data
             this.db = blogPostsDbContext;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public void AddUser(User user)
+        {
+            db.Add(user);
+        }
+
+        public async Task<User> DeleteUserById(int id)
+        {
+            var user = await db.users.FirstAsync(user => user.Id == id);
+            return db.users.Remove(user);
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await db.users.ToArrayAsync();
         }
 
-        public async Task<int> SaveChanges()
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            return await db.users.FirstOrDefaultAsync(User => User.Id == id);
+        }
+
+        public async Task<int> SaveChangesAsync()
         {
             return await db.SaveChangesAsync();
         }

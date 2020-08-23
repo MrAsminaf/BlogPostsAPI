@@ -8,7 +8,10 @@ namespace BlogPostsAPI.Data
 {
     public interface IUserRepository
     {
-        public Task<IEnumerable<User>> GetAllUsers();
-        public Task<int> SaveChanges();
+        public Task<IEnumerable<User>> GetAllUsersAsync();
+        public Task<User> GetUserByIdAsync(int id);
+        public Task<User> DeleteUserById(int id);
+        public void AddUser(User user);
+        public Task<int> SaveChangesAsync();
     }
 }
