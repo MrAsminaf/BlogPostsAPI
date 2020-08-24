@@ -23,7 +23,8 @@ namespace BlogPostsAPI.Data
         public async Task<User> DeleteUserById(int id)
         {
             var user = await db.users.FirstAsync(user => user.Id == id);
-            return db.users.Remove(user);
+            db.users.Remove(user);
+            return user;
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()

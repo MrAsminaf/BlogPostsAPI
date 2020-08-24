@@ -70,20 +70,39 @@ namespace BlogPostsAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
+            var user = await userRepository.GetUserByIdAsync(id);
+
+            if (user != null)
             {
-                var user = await userRepository.GetUserByIdAsync(id);
-                if (user == null)
-                {
-                    return BadRequest();
-                }
-                return Ok(userRepository.DeleteUserById(id));
+                await userRepository.DeleteUserById(id);
+                await userRepository.SaveChangesAsync();
+                return Ok(user);
             }
-            catch (Exception)
+            else
             {
-                return BadRequest();
+                return NotFound();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(User user)
+        {
+            var oldUser = await userRepository.GetUserByIdAsync(user.Id);
+
+            if (oldUser != null)
+            {
+                oldUser.Name = user.Name;
+                oldUser.SecondName = user.SecondName;
+                oldUser.Age = user.Age;
+
+                await userRepository.SaveChangesAsync();
+                return Ok(oldUser);
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }
