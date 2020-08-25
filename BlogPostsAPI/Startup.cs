@@ -16,12 +16,12 @@ namespace BlogPostsAPI
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -30,6 +30,14 @@ namespace BlogPostsAPI
                 options => options.UseSqlServer(Configuration.GetConnectionString("BlogPostsAPIDb")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AngularPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200");
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,11 +47,9 @@ namespace BlogPostsAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

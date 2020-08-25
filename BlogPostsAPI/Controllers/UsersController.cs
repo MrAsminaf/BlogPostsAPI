@@ -1,5 +1,6 @@
 ﻿using BlogPostsAPI.Data;
 using BlogPostsAPI.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -9,6 +10,7 @@ namespace BlogPostsAPI.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [EnableCors("AngularPolicy")]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository userRepository;
