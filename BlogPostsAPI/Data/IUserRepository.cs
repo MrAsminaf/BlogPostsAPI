@@ -10,8 +10,10 @@ namespace BlogPostsAPI.Data
     {
         public Task<IEnumerable<User>> GetAllUsersAsync();
         public Task<User> GetUserByIdAsync(int id);
-        public Task<User> DeleteUserById(int id);
+        public Task<User> DeleteUserByIdAsync(int id);
+        public Task<bool> UserExistsAsync(int id);
         public void AddUser(User user);
+        public Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id);
         public Task<int> SaveChangesAsync();
     }
 }

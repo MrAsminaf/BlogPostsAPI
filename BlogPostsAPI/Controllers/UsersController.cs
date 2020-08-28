@@ -88,7 +88,7 @@ namespace BlogPostsAPI.Controllers
                 return NotFound();
             }
 
-            await userRepository.DeleteUserById(id);
+            await userRepository.DeleteUserByIdAsync(id);
             await userRepository.SaveChangesAsync();
 
             return Ok(mapper.Map<UserDTO>(user));

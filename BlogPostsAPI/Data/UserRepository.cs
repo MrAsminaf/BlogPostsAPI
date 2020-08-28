@@ -1,4 +1,5 @@
 ﻿using BlogPostsAPI.Entities;
+using BlogPostsAPI.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,18 @@ namespace BlogPostsAPI.Data
             db.Add(user);
         }
 
-        public async Task<User> DeleteUserById(int id)
+        public async Task<bool> UserExistsAsync(int id)
+        {
+            var user = await db.users.FindAsync(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<User> DeleteUserByIdAsync(int id)
         {
             var user = await db.users.FirstAsync(user => user.Id == id);
             db.users.Remove(user);
@@ -35,6 +47,12 @@ namespace BlogPostsAPI.Data
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await db.users.FirstOrDefaultAsync(User => User.Id == id);
+        }
+
+        public async Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id)
+        {
+            var user = await db.users.FindAsync(id);
+            return user.BlogPosts;
         }
 
         public async Task<int> SaveChangesAsync()
