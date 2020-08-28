@@ -28,8 +28,14 @@ namespace BlogPostsAPI
         {
             services.AddDbContext<BlogPostsDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("BlogPostsAPIDb")));
+
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddControllers();
+
+            services.AddControllers(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AngularPolicy",
