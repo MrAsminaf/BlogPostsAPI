@@ -20,7 +20,7 @@ namespace BlogPostsAPI.Controllers
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
-        public UsersController(IUserRepository userRepository, 
+        public UsersController(IUserRepository userRepository,
             LinkGenerator linkGenerator,
             IMapper mapper)
         {
@@ -68,9 +68,9 @@ namespace BlogPostsAPI.Controllers
                     return BadRequest();
                 }
 
-                userRepository.AddUser(user);
+                userRepository.AddUser(mapper.Map<User>(user));
                 await userRepository.SaveChangesAsync();
-                return Created($"/api/Users/{user.Id}", user);
+                return Created($"/api/Users/{user.Id}", mapper.Map<UserDTO>(user));
             }
             catch (Exception)
             {
@@ -83,36 +83,39 @@ namespace BlogPostsAPI.Controllers
         {
             var user = await userRepository.GetUserByIdAsync(id);
 
-            if (user != null)
-            {
-                await userRepository.DeleteUserById(id);
-                await userRepository.SaveChangesAsync();
-                return Ok(user);
-            }
-            else
+            if (user == null)
             {
                 return NotFound();
             }
+
+            await userRepository.DeleteUserById(id);
+            await userRepository.SaveChangesAsync();
+
+            return Ok(mapper.Map<UserDTO>(user));
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(User user)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, User user)
         {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
             var oldUser = await userRepository.GetUserByIdAsync(user.Id);
 
-            if (oldUser != null)
-            {
-                oldUser.Name = user.Name;
-                oldUser.SecondName = user.SecondName;
-                oldUser.Age = user.Age;
-
-                await userRepository.SaveChangesAsync();
-                return Ok(oldUser);
-            }
-            else
+            if (oldUser == null)
             {
                 return NotFound();
             }
+
+            oldUser.Name = user.Name;
+            oldUser.SecondName = user.SecondName;
+            oldUser.Age = user.Age;
+            await userRepository.SaveChangesAsync();
+
+            return Ok(mapper.Map<UserDTO>(oldUser));
         }
+
     }
 }
