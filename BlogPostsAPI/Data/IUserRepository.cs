@@ -14,6 +14,7 @@ namespace BlogPostsAPI.Data
         public Task<bool> UserExistsAsync(int id);
         public void AddUser(User user);
         public Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id);
+        public Task<BlogPost> GetBlogPostById(int userId, int blogId);
         public Task<int> SaveChangesAsync();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BlogPostsAPI.Entities;
 using BlogPostsAPI.Migrations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +53,18 @@ namespace BlogPostsAPI.Data
         public async Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id)
         {
             var user = await db.users.FindAsync(id);
+
+            if(!user.BlogPosts.Any())
+            {
+                return null;
+            }
             return user.BlogPosts;
+        }
+
+        public async Task<BlogPost> GetBlogPostById(int userId, int blogId)
+        {
+            var user = await db.users.FindAsync(userId);
+            return user.BlogPosts.Find(blog => blog.Id == blogId);
         }
 
         public async Task<int> SaveChangesAsync()

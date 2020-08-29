@@ -28,8 +28,33 @@ namespace BlogPostsAPI.Controllers
             {
                 return BadRequest();
             }
+
             var blogs = await userRepository.GetBlogPostsByUserId(userId);
+
+            if(blogs == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mapper.Map<IEnumerable<BlogPostDTO>>(blogs));
+        }
+
+        [HttpGet("{blogId}")]
+        public async Task<ActionResult<BlogPostDTO>> GetBlog(int userId, int blogId)
+        {
+            if (!(await userRepository.UserExistsAsync(userId)))
+            {
+                return BadRequest();
+            }
+
+            var blog = await userRepository.GetBlogPostById(userId, blogId);
+
+            if(blog == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<BlogPostDTO>(blog));
         }
     }
 }
