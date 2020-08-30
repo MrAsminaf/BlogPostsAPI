@@ -13,7 +13,7 @@ namespace BlogPostsAPI.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    [EnableCors("AngularPolicy")]
+    [EnableCors("LocalhostPolicy")]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository userRepository;

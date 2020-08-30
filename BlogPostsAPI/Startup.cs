@@ -39,10 +39,10 @@ namespace BlogPostsAPI
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AngularPolicy",
+                options.AddPolicy("LocalhostPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200");
+                        builder.WithOrigins("http://localhost:4200", "http://localhost:3000");
                     });
             });
 
