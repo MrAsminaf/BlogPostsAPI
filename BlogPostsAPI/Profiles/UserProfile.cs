@@ -10,6 +10,7 @@ namespace BlogPostsAPI.Profiles
         {
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();
+            CreateMap<UserForCreation, User>();
         }
     }
 }

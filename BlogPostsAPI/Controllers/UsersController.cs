@@ -43,7 +43,7 @@ namespace BlogPostsAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetAuthor")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -58,24 +58,14 @@ namespace BlogPostsAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(User user)
+        public async Task<IActionResult> Post(UserForCreation user)
         {
-            try
-            {
-                var location = linkGenerator.GetPathByAction("Get", "Users", new { id = user.Id });
-                if (string.IsNullOrEmpty(location))
-                {
-                    return BadRequest();
-                }
+            var entity = mapper.Map<User>(user);
+            userRepository.AddUser(entity);
+            await userRepository.SaveChangesAsync();
 
-                userRepository.AddUser(mapper.Map<User>(user));
-                await userRepository.SaveChangesAsync();
-                return Created($"/api/Users/{user.Id}", mapper.Map<UserDTO>(user));
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            var userReturn = mapper.Map<User, UserDTO>(entity);
+            return CreatedAtRoute("GetAuthor", new { id = userReturn.Id }, userReturn);
         }
 
         [HttpDelete("{id}")]
