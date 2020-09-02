@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace BlogPostsAPI.Data
@@ -65,6 +66,27 @@ namespace BlogPostsAPI.Data
         {
             var user = await db.users.FindAsync(userId);
             return user.BlogPosts.Find(blog => blog.Id == blogId);
+        }
+
+        public async Task<IEnumerable<BlogPost>> GetBlogPostsByIds(IEnumerable<int> ids)
+        {
+            var users = await db.users.ToArrayAsync();
+            List<BlogPost> blogs = new List<BlogPost>();
+
+            foreach (var user in users)
+            {
+                foreach (var blog in user.BlogPosts)
+                {
+                    foreach (var id in ids)
+                    {
+                        if (blog.Id == id)
+                        {
+                            blogs.Add(blog);
+                        }
+                    }
+                }
+            }
+            return blogs;
         }
 
         public async Task<int> SaveChangesAsync()

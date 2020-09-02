@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogPostsAPI.Data;
+using BlogPostsAPI.Entities;
 using BlogPostsAPI.Helpers;
 using BlogPostsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,19 @@ namespace BlogPostsAPI.Controllers
             [FromRoute]
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<int> ids)
         {
+            if (ids == null)
+            {
+                return BadRequest();
+            }
 
+            var blogs = userRepository.GetBlogPostsByIds(ids) as IEnumerable<BlogPost>;
+
+            if (blogs.Count() != ids.Count())
+            {
+                return NotFound();
+            }
+
+            return Ok(mapper.Map<IEnumerable<BlogPostDTO>>(blogs));
         }
     }
 }
