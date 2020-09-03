@@ -4,10 +4,8 @@ using BlogPostsAPI.Entities;
 using BlogPostsAPI.Helpers;
 using BlogPostsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlogPostsAPI.Controllers
 {
@@ -44,5 +42,7 @@ namespace BlogPostsAPI.Controllers
 
             return Ok(mapper.Map<IEnumerable<BlogPostDTO>>(blogs));
         }
+
+
     }
 }

@@ -17,7 +17,6 @@ namespace BlogPostsAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository userRepository;
-        private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
         public UsersController(IUserRepository userRepository,
@@ -25,7 +24,6 @@ namespace BlogPostsAPI.Controllers
             IMapper mapper)
         {
             this.userRepository = userRepository;
-            this.linkGenerator = linkGenerator;
             this.mapper = mapper;
         }
 
