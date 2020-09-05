@@ -1,5 +1,4 @@
 ﻿using BlogPostsAPI.Entities;
-using BlogPostsAPI.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;

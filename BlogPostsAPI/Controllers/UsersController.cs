@@ -2,6 +2,7 @@
 using BlogPostsAPI.Data;
 using BlogPostsAPI.Entities;
 using BlogPostsAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace BlogPostsAPI.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("/api/[controller]")]
     [EnableCors("LocalhostPolicy")]
     public class UsersController : ControllerBase
