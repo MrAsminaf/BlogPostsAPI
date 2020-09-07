@@ -1,6 +1,7 @@
 ﻿using BlogPostsAPI.Authentication;
 using BlogPostsAPI.Models;
 using BlogPostsAPI.Roles;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace BlogPostsAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("LocalhostPolicy")]
     public class AuthenticateController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
