@@ -35,6 +35,35 @@ namespace BlogPostsAPI
             services.AddDbContext<BlogPostsDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("BlogPostsAPIDb")));
 
+            services.AddEntityFrameworkNpgsql().AddDbContext<BlogPostsDbContext>(options =>
+            {
+                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+                string connectionString;
+
+                if (env == "Development")
+                {
+                    connectionString = Configuration.GetConnectionString("BlogPostsAPIDb");
+                }
+                else
+                {
+                    var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+                    connectionUrl = connectionUrl.Replace("postgress://", string.Empty);
+                    var pgUserPass = connectionUrl.Split("@")[0];
+                    var pgHostPortDb = connectionUrl.Split("@")[1];
+                    var pgHostPort = connectionUrl.Split("/")[0];
+                    var pgDb = pgHostPortDb.Split("/")[1];
+                    var pgUser = pgUserPass.Split(":")[0];
+                    var pgPass = pgUserPass.Split(":")[1];
+                    var pgHost = pgHostPort.Split(":")[0];
+                    var pgPort = pgHostPort.Split(":")[1];
+
+                    connectionString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}";
+                }
+                options.UseNpgsql(connectionString);
+            });
+
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers(options =>
