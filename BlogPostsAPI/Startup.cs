@@ -52,7 +52,7 @@ namespace BlogPostsAPI
                     connectionUrl = connectionUrl.Replace("postgress://", string.Empty);
                     var pgUserPass = connectionUrl.Split("@")[0];
                     var pgHostPortDb = connectionUrl.Split("@")[1];
-                    var pgHostPort = connectionUrl.Split("/")[0];
+                    var pgHostPort = pgHostPortDb.Split("/")[0];
                     var pgDb = pgHostPortDb.Split("/")[1];
                     var pgUser = pgUserPass.Split(":")[0];
                     var pgPass = pgUserPass.Split(":")[1];
