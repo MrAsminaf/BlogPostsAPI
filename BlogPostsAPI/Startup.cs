@@ -49,7 +49,7 @@ namespace BlogPostsAPI
                 {
                     var connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-                    connectionUrl = connectionUrl.Replace("postgress://", string.Empty);
+                    connectionUrl = connectionUrl.Replace("postgres://", string.Empty);
                     var pgUserPass = connectionUrl.Split("@")[0];
                     var pgHostPortDb = connectionUrl.Split("@")[1];
                     var pgHostPort = pgHostPortDb.Split("/")[0];
