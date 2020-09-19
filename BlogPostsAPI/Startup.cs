@@ -43,7 +43,7 @@ namespace BlogPostsAPI
 
                 if (env == "Development")
                 {
-                    connectionString = Configuration.GetConnectionString("BlogPostsAPIDb");
+                    connectionString = Configuration.GetConnectionString("PostgresDb");
                 }
                 else
                 {
