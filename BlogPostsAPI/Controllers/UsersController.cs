@@ -22,7 +22,6 @@ namespace BlogPostsAPI.Controllers
         private readonly IMapper mapper;
 
         public UsersController(IUserRepository userRepository,
-            LinkGenerator linkGenerator,
             IMapper mapper)
         {
             this.userRepository = userRepository;
