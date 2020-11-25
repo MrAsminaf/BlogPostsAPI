@@ -92,5 +92,16 @@ namespace BlogPostsAPI.Data
         {
             return await db.SaveChangesAsync();
         }
+
+        public async void AddBlogToUser(int id, BlogPost blogPost)
+        {
+            var user = await db.users.FindAsync(id);
+
+            if (user != null)
+            {
+                user.BlogPosts.Add(blogPost);
+            }
+            return;
+        }
     }
 }

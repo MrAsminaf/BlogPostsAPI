@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogPostsAPI.Data;
+using BlogPostsAPI.Entities;
 using BlogPostsAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -56,5 +57,12 @@ namespace BlogPostsAPI.Controllers
 
             return Ok(mapper.Map<BlogPostDTO>(blog));
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> AddBlogToUser(BlogPostForCreationDTO blogPost)
+        //{
+        //    var entity = mapper.Map<BlogPost>(blogPost);
+
+        //}
     }
 }

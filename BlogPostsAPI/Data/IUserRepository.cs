@@ -1,7 +1,5 @@
 ﻿using BlogPostsAPI.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogPostsAPI.Data
@@ -14,6 +12,7 @@ namespace BlogPostsAPI.Data
         public Task<bool> UserExistsAsync(int id);
         public void AddUser(User user);
         public Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id);
+        public void AddBlogToUser(int id, BlogPost blogPost);
         public Task<BlogPost> GetBlogPostById(int userId, int blogId);
         public Task<int> SaveChangesAsync();
     }
