@@ -13,31 +13,52 @@ namespace BlogPostsAPI.Tests
 {
     public class UsersControllerTests
     {
+        private List<User> GenerateListOfUsers(int size)
+        {
+            var users = new List<User>();
+            for (int i = 0; i < size; ++i)
+            {
+                users.Add(new User()
+                {
+                    Id = 0,
+                    Name = $"Name{i}",
+                    SecondName = $"SecondName{i}",
+                    Age = i,
+                    Location = "Unknown",
+                    BlogPosts = new List<BlogPost>()
+                });
+            }
+            return users;
+        }
+
         [Fact]
-        public void Get_ReturnsAllUsers()
+        public void Get_ReturnsOkResult()
         {
             // Arrange
-            var users = new List<User>();
-            users.Add(new User()
-            {
-                Id = 0,
-                Name = "Name0",
-                SecondName = "SecondName0",
-                Age = 0,
-                Location = "Unknown",
-                BlogPosts = new List<BlogPost>()
-            });
+            var users = GenerateListOfUsers(2);
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetAllUsersAsync())
+                .ReturnsAsync(users);
 
-            users.Add(new User()
+            var mapperConfig = new MapperConfiguration(cfg =>
             {
-                Id = 1,
-                Name = "Name1",
-                SecondName = "SecondName1",
-                Age = 1,
-                Location = "Unknown",
-                BlogPosts = new List<BlogPost>()
+                cfg.AddProfile(new UserProfile());
             });
+            var mapper = mapperConfig.CreateMapper();
+            var controller = new UsersController(mockRepo.Object, mapper);
 
+            // Act
+            var result = controller.Get();
+
+            // Assert
+            var viewResult = Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public void Get_ReturnsAllItems()
+        {
+            // Arrange
+            var users = GenerateListOfUsers(3);
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(repo => repo.GetAllUsersAsync())
                 .ReturnsAsync(users);
@@ -54,6 +75,7 @@ namespace BlogPostsAPI.Tests
 
             // Assert
             var viewResult = Assert.IsType<List<UserDTO>>(result.Value);
+            Assert.Equal(3, viewResult.Count);
         }
     }
 }
