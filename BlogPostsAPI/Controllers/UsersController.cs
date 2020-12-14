@@ -86,12 +86,12 @@ namespace BlogPostsAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, User user)
         {
-            if (id != user.Id)
+            if (id != user.UserId)
             {
                 return BadRequest();
             }
 
-            var oldUser = await userRepository.GetUserByIdAsync(user.Id);
+            var oldUser = await userRepository.GetUserByIdAsync(user.UserId);
 
             if (oldUser == null)
             {
@@ -99,7 +99,7 @@ namespace BlogPostsAPI.Controllers
             }
 
             oldUser.Name = user.Name;
-            oldUser.SecondName = user.SecondName;
+            oldUser.Surname = user.Surname;
             oldUser.Age = user.Age;
             await userRepository.SaveChangesAsync();
 

@@ -7,7 +7,7 @@ namespace BlogPostsAPI.Data
 {
     public class BlogPostsDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<User> users { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public BlogPostsDbContext(DbContextOptions options) 
             : base(options)

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using BlogPostsAPI.Authentication;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,15 +7,14 @@ namespace BlogPostsAPI.Entities
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
-        [Required]
+        public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
-        public string SecondName { get; set; }
+        public string Surname { get; set; }
 
-        [Required]
         public int Age { get; set; }
 
         public string Location { get; set; }

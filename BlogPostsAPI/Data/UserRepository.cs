@@ -24,7 +24,7 @@ namespace BlogPostsAPI.Data
 
         public async Task<bool> UserExistsAsync(int id)
         {
-            var user = await db.users.FindAsync(id);
+            var user = await db.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -35,24 +35,24 @@ namespace BlogPostsAPI.Data
 
         public async Task<User> DeleteUserByIdAsync(int id)
         {
-            var user = await db.users.FirstAsync(user => user.Id == id);
-            db.users.Remove(user);
+            var user = await db.Users.FirstAsync(user => user.UserId == id);
+            db.Users.Remove(user);
             return user;
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await db.users.ToArrayAsync();
+            return await db.Users.ToArrayAsync();
         }
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await db.users.FirstOrDefaultAsync(User => User.Id == id);
+            return await db.Users.FirstOrDefaultAsync(User => User.UserId == id);
         }
 
         public async Task<IEnumerable<BlogPost>> GetBlogPostsByUserId(int id)
         {
-            var user = await db.users.FindAsync(id);
+            var user = await db.Users.FindAsync(id);
 
             if(!user.BlogPosts.Any())
             {
@@ -63,13 +63,13 @@ namespace BlogPostsAPI.Data
 
         public async Task<BlogPost> GetBlogPostById(int userId, int blogId)
         {
-            var user = await db.users.FindAsync(userId);
+            var user = await db.Users.FindAsync(userId);
             return user.BlogPosts.Find(blog => blog.Id == blogId);
         }
 
         public async Task<IEnumerable<BlogPost>> GetBlogPostsByIds(IEnumerable<int> ids)
         {
-            var users = await db.users.ToArrayAsync();
+            var users = await db.Users.ToArrayAsync();
             List<BlogPost> blogs = new List<BlogPost>();
 
             foreach (var user in users)
@@ -95,7 +95,7 @@ namespace BlogPostsAPI.Data
 
         public async void AddBlogToUser(int id, BlogPost blogPost)
         {
-            var user = await db.users.FindAsync(id);
+            var user = await db.Users.FindAsync(id);
 
             if (user != null)
             {

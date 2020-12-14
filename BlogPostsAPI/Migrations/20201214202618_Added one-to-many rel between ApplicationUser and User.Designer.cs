@@ -3,15 +3,17 @@ using System;
 using BlogPostsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BlogPostsAPI.Migrations
 {
     [DbContext(typeof(BlogPostsDbContext))]
-    partial class BlogPostsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201214202618_Added one-to-many rel between ApplicationUser and User")]
+    partial class AddedonetomanyrelbetweenApplicationUserandUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace BlogPostsAPI.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,7 +275,7 @@ namespace BlogPostsAPI.Migrations
 
             modelBuilder.Entity("BlogPostsAPI.Entities.BlogPost", b =>
                 {
-                    b.HasOne("BlogPostsAPI.Entities.User", "User")
+                    b.HasOne("BlogPostsAPI.Entities.User", "user")
                         .WithMany("BlogPosts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

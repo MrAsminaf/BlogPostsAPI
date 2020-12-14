@@ -20,9 +20,9 @@ namespace BlogPostsAPI.Tests
             {
                 users.Add(new User()
                 {
-                    Id = 0,
+                    UserId = 0,
                     Name = $"Name{i}",
-                    SecondName = $"SecondName{i}",
+                    Surname = $"SecondName{i}",
                     Age = i,
                     Location = "Unknown",
                     BlogPosts = new List<BlogPost>()

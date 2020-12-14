@@ -1,13 +1,12 @@
 ﻿using BlogPostsAPI.Authentication;
+using BlogPostsAPI.Entities;
 using BlogPostsAPI.Models;
 using BlogPostsAPI.Roles;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -84,14 +83,21 @@ namespace BlogPostsAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            ApplicationUser user = new ApplicationUser()
+            User user = new User()
+            {
+                Name = model.Name,
+                Surname = model.Surname
+            };
+
+            ApplicationUser applicationUser = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                User = user
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(applicationUser, model.Password);
             if(!result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
