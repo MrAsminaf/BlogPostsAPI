@@ -18,17 +18,20 @@ namespace BlogPostsAPI.Controllers
     public class BlogPostsController : ControllerBase
     {
         private readonly IUserRepository userRepository;
+        private readonly IBlogPostRepository blogPostRepository;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<ApplicationUser> userManager;
 
         public BlogPostsController(
             IUserRepository userRepository,
+            IBlogPostRepository blogPostRepository,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor,
             UserManager<ApplicationUser> userManager)
         {
             this.userRepository = userRepository;
+            this.blogPostRepository = blogPostRepository;
             this.mapper = mapper;
             this.httpContextAccessor = httpContextAccessor;
             this.userManager = userManager;
@@ -78,8 +81,8 @@ namespace BlogPostsAPI.Controllers
             var userId = user.UserId;
             entity.UserId = userId;
 
-            userRepository.AddBlogToUser(userId, entity);
-            await userRepository.SaveChangesAsync();
+            blogPostRepository.AddBlogPost(entity);
+            await blogPostRepository.SaveChangesAsync();
 
             return CreatedAtRoute("GetBlog", new { userId = userId, blogId = entity.Id }, entity);
         }

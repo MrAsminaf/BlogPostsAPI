@@ -64,7 +64,7 @@ namespace BlogPostsAPI.Data
         public async Task<BlogPost> GetBlogPostById(int userId, int blogId)
         {
             var user = await db.Users.FindAsync(userId);
-            return user.BlogPosts.Find(blog => blog.Id == blogId);
+            return user.BlogPosts.ToList().Find(blog => blog.Id == blogId);
         }
 
         public async Task<IEnumerable<BlogPost>> GetBlogPostsByIds(IEnumerable<int> ids)
@@ -99,7 +99,7 @@ namespace BlogPostsAPI.Data
 
             if (user != null)
             {
-                user.BlogPosts.Add(blogPost);
+                user.BlogPosts.ToList().Add(blogPost);
             }
             return;
         }

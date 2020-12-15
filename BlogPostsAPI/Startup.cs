@@ -65,6 +65,7 @@ namespace BlogPostsAPI
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 
             services.AddControllers(options =>
             {

@@ -19,7 +19,6 @@ namespace BlogPostsAPI.Entities
 
         public string Location { get; set; }
 
-        public List<BlogPost> BlogPosts { get; set; } = 
-            new List<BlogPost>();
+        public IEnumerable<BlogPost> BlogPosts { get; set; }
     }
 }
