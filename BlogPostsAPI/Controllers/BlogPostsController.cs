@@ -74,14 +74,14 @@ namespace BlogPostsAPI.Controllers
         public async Task<IActionResult> AddBlogToUser(BlogPostForCreationDTO blogPost)
         {
             var entity = mapper.Map<BlogPost>(blogPost);
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // var applicationUser = await userManager.FindByNameAsync(userId);
-            entity.UserId = 1;
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var userId = user.UserId;
+            entity.UserId = userId;
 
-            userRepository.AddBlogToUser(1, entity);
+            userRepository.AddBlogToUser(userId, entity);
             await userRepository.SaveChangesAsync();
 
-            return CreatedAtRoute("GetBlog", new { userId = 1, blogId = entity.Id }, entity);
+            return CreatedAtRoute("GetBlog", new { userId = userId, blogId = entity.Id }, entity);
         }
     }
 }
